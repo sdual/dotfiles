@@ -47,7 +47,6 @@ fi
 export PATH=/usr/local/sbin:$PATH
 
 # java home
-#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 
 # java class path
