@@ -74,10 +74,6 @@ eval "$(pyenv init -)"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# python path
-export PYTHONPATH="/usr/local/Cellar/pyqt5/5.7/lib/python3.5/site-packages"
-export PYTHONPATH="/usr/local/Cellar/sip/4.18.1/lib/python3.5/site-packages:$PYTHONPATH"
-
 # path for opencv3
 export PATH="/usr/local/opt/opencv3/bin:$PATH"
 
