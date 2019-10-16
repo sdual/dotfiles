@@ -1,11 +1,9 @@
-USERNAME=$(whoami)
-
 alias ls='ls -G'
 alias cp='cp -i'
 alias rm='rm -vi'
 alias ll='ls -l'
 
-# use emacs daemon.
+# emacs daemon.
 alias emacs='emacsclient -nw -c -a ""'
 alias killemacs='emacsclient -e "(kill-emacs)"'
 
@@ -110,4 +108,7 @@ export PATH="/Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2019-08-
 export SDKROOT=/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk
 
 # Nim path
-export PATH="/Users/$HOME/.nimble/bin":$PATH
+export PATH="$HOME/.nimble/bin":$PATH
+
+# config path
+export XDG_CONFIG_HOME = ~/.config
