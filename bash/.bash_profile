@@ -111,4 +111,4 @@ export SDKROOT=/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.
 export PATH="$HOME/.nimble/bin":$PATH
 
 # config path
-export XDG_CONFIG_HOME = ~/.config
+export XDG_CONFIG_HOME="$HOME/.config"
