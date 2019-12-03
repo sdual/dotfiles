@@ -4,9 +4,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (fset 'package-desc-vers 'package--ac-desc-version)
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (package-initialize)
 
 
@@ -33,13 +31,6 @@
 (global-set-key (kbd "C-c p")    'windmove-up)
 (global-set-key (kbd "C-c f") 'windmove-right)
 
-;; completion of brackets
-(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "'") 'skeleton-pair-insert-maybe)
-(setq skeleton-pair 1)
 
 ;; scroll:
 (setq
@@ -58,9 +49,6 @@
 ;; line number settings.
 (global-linum-mode t)
 
-;; tab width.
-(setq default-tab-width 4)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; neotree settings.
@@ -69,33 +57,6 @@
 (global-set-key [f8] 'neotree-toggle)
 (setq-default neo-show-hidden-files t)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; company and bind-key.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'company)
-(require 'bind-key)
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
-(bind-key "C-M-i" 'company-complete)
-(bind-key "C-h" nil company-active-map)
-(bind-key "C-n" 'company-select-next company-active-map)
-(bind-key "C-p" 'company-select-previous company-active-map)
-(bind-key "C-n" 'company-select-next company-search-map)
-(bind-key "C-p" 'company-select-previous company-search-map)
-(bind-key "<tab>" 'company-complete-common-or-cycle company-active-map)
-(bind-key "<backtab>" 'company-select-previous company-active-map)
-(bind-key "C-i" 'company-complete-selection company-active-map)
-(bind-key "M-d" 'company-show-doc-buffer company-active-map)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-tooltip-maximum-width 50)
-
-;; company-quickhelp
-(setq company-quickhelp-color-foreground "white")
-(setq company-quickhelp-color-background "dark slate gray")
-(setq company-quickhelp-max-lines 5)
-(company-quickhelp-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -113,40 +74,23 @@
              (set (make-local-variable 'delete-trailing-whitespece-before-save) nil)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; exec-path-from-shell settings.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-(setq exec-path-from-shell-check-startup-files nil)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; dumb-jump, smart-jump
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; dumb-jump
-(dumb-jump-mode)
-(setq dumb-jump-selector 'ivy)
-
-;; smart-jump
-(smart-jump-setup-default-registers)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; golang settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'go-mode-hook 'eglot-ensure)
-(setq gofmt-command "goimports")
-(add-hook 'before-save-hook #'gofmt-before-save)
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+(use-package eglot
+  :config
+  (define-key eglot-mode-map (kbd "M-.") 'xref-find-definitions)
+  (define-key eglot-mode-map (kbd "M-,") 'pop-tag-mark)
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
+  (add-hook 'go-mode-hook 'eglot-ensure))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
+ '(package-selected-packages (quote (go-mode neotree))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
