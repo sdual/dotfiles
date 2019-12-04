@@ -17,6 +17,28 @@
 (load-theme 'smyx t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; functionality
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; not create a backup file
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+(defun copy-from-osx ()
+  (shell-command-to-string "pbpaste"))
+
+;; share the clipboard of mac os
+(defun paste-to-osx (text &optional push)
+  (let ((process-connection-type nil))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+(setq interprogram-cut-function 'paste-to-osx)
+(setq interprogram-paste-function 'copy-from-osx)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bind settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -101,6 +123,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; markdown file settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; disactivate whitespace-action in markdown file.
 (defvar delete-trailing-whitespece-before-save t)
 (defun my-delete-trailing-whitespace ()
@@ -139,6 +162,24 @@
 (add-hook 'before-save-hook #'gofmt-before-save)
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+
+;; run gofmt automatically at saving the go file.
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook (lambda()
+           (company-mode)
+           (setq indent-tabs-mode nil)
+           (setq c-basic-offset 4)
+           (setq tab-width 4)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; python settings.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'python-mode-hook 'eglot-ensure)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; others.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -146,7 +187,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
+    (python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
