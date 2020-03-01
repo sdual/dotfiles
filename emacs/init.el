@@ -174,8 +174,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; python settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'python-mode-hook 'eglot-ensure)
+(package-initialize)
+(elpy-enable)
 
+;; autopep8
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+
+
+(add-hook 'python-mode-hook 'importmagic-mode)
+;python import sort.
+;(require 'pyimpsort)
+;; (eval-after-load 'python
+;;   '(define-key python-mode-map "\C-c\C-u" #'pyimpsort-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; others.
@@ -187,7 +197,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
+    (protobuf-mode pyimpsort dockerfile-mode yaml-mode python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
