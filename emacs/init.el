@@ -16,6 +16,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'smyx t)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; functionality
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -180,12 +181,34 @@
 ;; autopep8
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
-
+;; importmagic
 (add-hook 'python-mode-hook 'importmagic-mode)
-;python import sort.
-;(require 'pyimpsort)
-;; (eval-after-load 'python
-;;   '(define-key python-mode-map "\C-c\C-u" #'pyimpsort-buffer))
+
+;; py-isort
+(require 'py-isort)
+(add-hook 'before-save-hook 'py-isort-before-save)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rust settings.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; racerやrustfmt、コンパイラにパスを通す
+(add-to-list 'exec-path (expand-file-name "~/.cargo/bin/"))
+;;; rust-modeでrust-format-on-saveをtにすると自動でrustfmtが走る
+(eval-after-load "rust-mode"
+  '(setq-default rust-format-on-save t))
+;;; rustのファイルを編集するときにracerとflycheckを起動する
+(add-hook 'rust-mode-hook (lambda ()
+                            (racer-mode)
+                            (flycheck-rust-setup)))
+;;; racerのeldocサポートを使う
+(add-hook 'racer-mode-hook #'eldoc-mode)
+;;; racerの補完サポートを使う
+(add-hook 'racer-mode-hook (lambda ()
+                             (company-mode)
+                             ;;; この辺の設定はお好みで
+                             (set (make-variable-buffer-local 'company-idle-delay) 0.1)
+                             (set (make-variable-buffer-local 'company-minimum-prefix-length) 0)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; others.
@@ -197,7 +220,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (protobuf-mode pyimpsort dockerfile-mode yaml-mode python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
+    (py-isort pyimport rust-mode protobuf-mode pyimpsort dockerfile-mode yaml-mode python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
