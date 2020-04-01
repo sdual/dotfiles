@@ -13,8 +13,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; theme
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'smyx t)
+(load-theme 'monokai t)
+;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;(load-theme 'smyx t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -57,11 +58,12 @@
 (global-set-key (kbd "C-c f") 'windmove-right)
 
 ;; completion of brackets
-(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "'") 'skeleton-pair-insert-maybe)
+(electric-pair-mode 1)
+;; (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
+;; (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
+;; (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
+;; (global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
+;; (global-set-key (kbd "'") 'skeleton-pair-insert-maybe)
 (setq skeleton-pair 1)
 
 ;; scroll:
@@ -188,6 +190,26 @@
 (require 'py-isort)
 (add-hook 'before-save-hook 'py-isort-before-save)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; c++ settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'cc-mode)
+(setq c-default-style "k&r")
+(add-hook 'c-mode-common-hook
+     	  '(lambda ()
+             (progn
+               (c-toggle-hungry-state 1)
+               (setq c-basic-offset 4 indent-tabs-mode nil))))
+
+(setq auto-mode-alist
+      (append
+       '(("\\.hpp$" . c++-mode)
+         ("\\.h$"   . c++-mode)
+         ) auto-mode-alist))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rust settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -220,7 +242,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (py-isort pyimport rust-mode protobuf-mode pyimpsort dockerfile-mode yaml-mode python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
+    (julia-mode monokai-theme py-isort pyimport rust-mode protobuf-mode pyimpsort dockerfile-mode yaml-mode python-mode markdown-mode smart-jump neotree go-mode exec-path-from-shell eglot company-quickhelp bind-key))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
