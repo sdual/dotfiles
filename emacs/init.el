@@ -178,7 +178,7 @@
 ;; python settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-initialize)
-(elpy-enable)
+;;(elpy-enable)
 
 ;; autopep8
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
@@ -231,6 +231,10 @@
                              (set (make-variable-buffer-local 'company-idle-delay) 0.1)
                              (set (make-variable-buffer-local 'company-minimum-prefix-length) 0)))
 
+
+;; ;; exec-path-from-shell
+;; (when (memq window-system '(mac ns x))
+;;   (exec-path-from-shell-initialize))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; others.
